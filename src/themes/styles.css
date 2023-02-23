@@ -1,0 +1,15 @@
+/* Base */
+@import './tailwind/base.css';
+@import './01-base/variables.css';
+@import './01-base/document.css';
+@import './01-base/font.css';
+@import './01-base/headings.css';
+
+/* Components */
+@import './tailwind/components.css';
+@import './02-components/card.css';
+@import './02-components/button.css';
+
+/* Utilities */
+@import './tailwind/utilities.css';
+@import './03-utilities/border.css';
