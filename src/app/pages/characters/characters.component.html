@@ -1,7 +1,85 @@
+<div class="container">
+  <form [formGroup]="form" class="flex">
+    <input
+      type="text"
+      formControlName="name"
+      class="block w-full p-3 border-2 border-solid field border-slate-600"
+    />
+  </form>
 
-<div class="content-center">
-  <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
+  <div
+    *ngIf="characters$ | async as characters; else noCharactersFound"
+    class="mt-12"
+  >
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-3 lg:grid-cols-4">
+      <div
+        class="max-w-sm border-2 border-solid rounded-3xl"
+        *ngFor="let character of characters.results"
+      >
+        <div class="relative">
+          <img
+            class="w-full h-45 rounded-3xl"
+            [src]="character.image"
+            alt="Sunset in the mountains"
+          />
 
+          <div
+            class="absolute w-16 text-center bg-white rounded-2xl right-1 top-2"
+          >
+            <p>
+              <span class="font-bold">#:</span>
+              {{ character.id }}
+            </p>
+          </div>
+        </div>
+        <div class="px-6 py-4">
+          <div class="mb-2 text-xl font-bold">
+            {{ character.name.toUpperCase() }}
+          </div>
+          <p><span class="font-bold">Status:</span> {{ character.status }}</p>
+          <p>
+            <span class="font-bold">Gender:</span>
+            {{ character.gender }}
+          </p>
+          <p>
+            <span class="font-bold">Specie:</span>
+            {{ character.species }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-center gap-6 mt-12">
+      <button
+        *ngIf="characters.info.prev"
+        class="btn btn-secondary"
+        (click)="onPaginationChange(characters.info.prev)"
+      >
+        Prev
+      </button>
+
+      <button
+        *ngFor="let page of getPaginationRange(characters.info.pages)"
+        [ngClass]="{ 'font-semibold': page === currentPage }"
+        (click)="onPaginationChange(page)"
+      >
+        {{ page }}
+      </button>
+
+      <button
+        *ngIf="characters.info.next"
+        class="btn btn-secondary"
+        (click)="onPaginationChange(characters.info.next)"
+      >
+        Next
+      </button>
+    </div>
+  </div>
 </div>
+
+<ng-template #noCharactersFound>
+  <p>
+    No se encontraron personajes con el nombre
+    <strong class="font-semibold">"{{ form.value.name }}"</strong>
+  </p>
+</ng-template>
